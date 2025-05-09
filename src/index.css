@@ -11,4 +11,7 @@
   .theme-transition {
     @apply transition-colors duration-500 ease-in-out;
   }
+  .text-fluid {
+    @apply font-size: clamp(1rem, 4vw + 1rem, 2rem);
+  }
 }
