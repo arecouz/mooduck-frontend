@@ -1,0 +1,14 @@
+/* styles/globals.css */
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+* {
+  font-family: 'Zain', sans-serif;
+}
+
+@layer utilities {
+  .theme-transition {
+    @apply transition-colors duration-500 ease-in-out;
+  }
+}
