@@ -1,14 +1,18 @@
  
-# 🐮 MooDuck Frontend 🦆 
+# 🦆 MooDuck Frontend 🦆 
 🚧 **Progress: Laying foundations** 🚧
 
 This is the web client for the MooDuck app — a mood-tracking app that sends users regular emails asking how they’re feeling. The responses help users reflect on their emotional well-being over time. This frontend serves as the user interface for visualizing mood data and managing preferences.
+
+🐮 [**MooDuck Backend**](https://github.com/arecouz/mooduck-backend)
+
 ## 🚀 Tech Stack
 - **React**
 - **Vite** 
 - **TypeScript** 
 - **Tailwind CSS** 
 - **ESLint**
+
 ## 📜 Scripts
 | Command       | Description               |
 | ------------- | ------------------------- |
