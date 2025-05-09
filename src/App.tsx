@@ -1,11 +1,12 @@
 import { ThemeProvider } from './context/theme/ThemeProvider.tsx';
-import HomePage from './pages/Login.tsx';
+import Layout from './Layout.tsx';
+
 
 const App = () => {
   return (
     <ThemeProvider>
-      <div className='bg-white text-black dark:bg-black dark:text-white theme-transition'>
-        <HomePage />
+      <div className='bg-yellow-50 text-black dark:bg-gray-900 dark:text-yellow-100 theme-transition text-fluid'>
+        <Layout />
       </div>
     </ThemeProvider>
   );

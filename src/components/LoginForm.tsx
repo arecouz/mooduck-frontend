@@ -23,7 +23,7 @@ const LoginForm = () =>  {
   return (
     <form
       onSubmit={handleSubmit}
-      className='p-8 border-4 rounded w-full'
+      className='p-8 border-3 rounded w-full'
     >
       <div className='mb-4'>
         <label htmlFor='email'>
@@ -35,12 +35,12 @@ const LoginForm = () =>  {
           id='email'
           value={formData.email}
           onChange={handleChange}
-          className='w-full border-3 px-3 py-2 rounded'
+          className='w-full border-2 px-3 py-2 rounded'
           required
         />
       </div>
       <div className='mb-4'>
-        <label htmlFor='password' className='text-sm font-medium'>
+        <label htmlFor='password'>
           Password
         </label>
         <input
@@ -49,13 +49,13 @@ const LoginForm = () =>  {
           id='password'
           value={formData.password}
           onChange={handleChange}
-          className='w-full border-3 px-3 py-2 rounded'
+          className='w-full border-2 px-3 py-2 rounded'
           required
         />
       </div>
       <button
         type='submit'
-        className='w-full border-3 py-2 rounded hover:bg-yellow-100 dark:hover:bg-gray-800'
+        className='w-full border-3 py-2 rounded hover:bg-yellow-200 dark:hover:bg-gray-800'
       >
         Login
       </button>
