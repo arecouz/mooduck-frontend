@@ -7,11 +7,14 @@
   font-family: 'Zain', sans-serif;
 }
 
+@theme {
+  --breakpoint-3xl: 120rem; /* 1920px */
+  --breakpoint-4xl: 160rem; /* 2560px */
+  --breakpoint-5xl: 240rem; /* 3840px */
+}
+
 @layer utilities {
   .theme-transition {
     @apply transition-colors duration-500 ease-in-out;
-  }
-  .text-fluid {
-    @apply font-size: clamp(1rem, 4vw + 1rem, 2rem);
   }
 }
