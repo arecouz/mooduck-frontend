@@ -9,8 +9,10 @@ interface ThemeProviderProps {
 export const ThemeProvider = ({ children }: ThemeProviderProps) => {
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     if (typeof window !== 'undefined') {
-      return (localStorage.getItem('theme') as 'light' | 'dark') ||
-        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      return (
+        (localStorage.getItem('theme') as 'light' | 'dark') ||
+        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+      );
     }
     return 'light';
   });

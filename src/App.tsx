@@ -1,14 +1,19 @@
 import { ThemeProvider } from './context/theme/ThemeProvider.tsx';
-import Layout from './Layout.tsx';
-
+import { Route, Routes } from 'react-router-dom';
+import Login from './pages/Login.tsx';
+import Dashboard from './pages/Dashboard.tsx';
+import { AuthProvider } from './context/auth/AuthProvider.tsx';
 
 const App = () => {
   return (
-    <ThemeProvider>
-      <div className='bg-yellow-50 text-black dark:bg-gray-900 dark:text-yellow-100 theme-transition text-fluid'>
-        <Layout />
-      </div>
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Routes>
+      </ThemeProvider>
+    </AuthProvider>
   );
 };
 

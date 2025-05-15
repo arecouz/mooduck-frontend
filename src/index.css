@@ -1,7 +1,12 @@
-/* styles/globals.css */
 @import 'tailwindcss';
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  body {
+    @apply bg-yellow-50 text-black dark:bg-gray-900 dark:text-yellow-100 transition-colors duration-500 ease-in-out;
+  }
+}
 
 * {
   font-family: 'Zain', sans-serif;
