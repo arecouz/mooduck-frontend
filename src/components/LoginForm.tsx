@@ -38,7 +38,6 @@ const LoginForm = () => {
 
   return (
     <div>
-      {' '}
       <form onSubmit={handleSubmit} className="p-8 border-3 rounded w-full">
         <div className="mb-4">
           <label htmlFor="email">Email</label>
