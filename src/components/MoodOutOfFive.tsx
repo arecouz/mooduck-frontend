@@ -28,7 +28,6 @@ export const MoodOutOfFive = () => {
     } else {
       setSubmitted(true);
       setRating(null); // Optionally reset selection
-      await fetchMoods(); // Refresh mood list
     }
   };
 
