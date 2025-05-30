@@ -1,12 +1,16 @@
-import { useState } from 'react';
-import { supabase } from '../utils/supabaseClient';
-import { useAuth } from '../context/auth/useAuth'; // Assuming you have this
+import { useEffect, useState } from 'react';
+import { useAuth } from '../context/auth/useAuth';
+import { insertMoodRating, getMoodRatings } from '../services/moods/moodOutOfFive';
+import type { Database } from '../types/supabase';
+
+type MoodEntry = Database['public']['Tables']['mood_out_of_five']['Row'];
 
 export const MoodOutOfFive = () => {
-  const { user } = useAuth(); // Get the current user
+  const { user } = useAuth();
   const [rating, setRating] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [moods, setMoods] = useState<MoodEntry[]>([]);
 
   const handleSelect = (value: number) => {
     setRating(value);
@@ -16,20 +20,30 @@ export const MoodOutOfFive = () => {
     if (!user || rating === null) return;
 
     setLoading(true);
-    const { error } = await supabase.from('mood_out_of_five').insert([
-      {
-        user_id: user.id,
-        rating,
-      },
-    ]);
+    const { error } = await insertMoodRating(user.id, rating);
     setLoading(false);
 
     if (error) {
       console.error('Insert error:', error.message);
     } else {
       setSubmitted(true);
+      setRating(null); // Optionally reset selection
+      await fetchMoods(); // Refresh mood list
     }
   };
+
+  useEffect(() => {
+    const fetchMoods = async () => {
+      if (!user) return;
+      const { data, error } = await getMoodRatings(user.id);
+      if (error) {
+        console.error('Fetch moods error:', error.message);
+      } else if (data) {
+        setMoods(data);
+      }
+    };
+    fetchMoods();
+  }, [user]);
 
   return (
     <div className="flex flex-col items-center gap-4">
@@ -61,6 +75,17 @@ export const MoodOutOfFive = () => {
       </button>
 
       {submitted && <p className="text-green-600">Thanks for your response!</p>}
+
+      <div className="mt-6 w-full max-w-md text-center">
+        <h2 className="text-lg font-medium">Your Mood History:</h2>
+        <ul className="mt-2 space-y-1">
+          {moods.map(mood => (
+            <li key={mood.id} className="text-gray-800 dark:text-gray-200">
+              {mood.rating}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
