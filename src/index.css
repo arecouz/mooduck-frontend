@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -13,9 +13,32 @@
 }
 
 @theme {
-  --breakpoint-3xl: 120rem; /* 1920px */
-  --breakpoint-4xl: 160rem; /* 2560px */
-  --breakpoint-5xl: 240rem; /* 3840px */
+  --breakpoint-3xl: 120rem;
+  /* 1920px */
+  --breakpoint-4xl: 160rem;
+  /* 2560px */
+  --breakpoint-5xl: 240rem;
+  /* 3840px */
+
+  --animate-bounce-once: bounce-once 0.3s ease-in-out;
+
+  @keyframes bounce-once {
+    0% {
+      transform: scale(1);
+    }
+
+    30% {
+      transform: scale(1.1);
+    }
+
+    60% {
+      transform: scale(0.95);
+    }
+
+    100% {
+      transform: scale(1);
+    }
+  }
 }
 
 @layer utilities {

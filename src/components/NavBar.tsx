@@ -2,11 +2,19 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/auth/useAuth';
 import Brand from './Brand';
 import { DarkModeToggle } from './DarkModeToggle';
+import { supabase } from '../utils/supabaseClient';
 
 const NavBar = () => {
   const { user } = useAuth();
 
   if (!user) throw Error('something went wrong');
+
+  const logOut = async () => {
+    const { error } = await supabase.auth.signOut()
+    if (error) {
+      console.error("Logout error", error.message)
+    }
+  }
 
   return (
     <header className="sticky top-0 z-50 border-b-2 bg-yellow-300 dark:bg-gray-800">
@@ -24,9 +32,9 @@ const NavBar = () => {
           <Link to="/dashboard" className="hover:underline">
             Dashboard
           </Link>
-          <Link to="/logout" className="hover:underline">
+          <button onClick={() => logOut()} className="hover:underline">
             Log out
-          </Link>
+          </button>
         </nav>
 
         {/* Right side: Toggle */}
