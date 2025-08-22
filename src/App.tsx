@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import Login from './pages/Login.tsx';
 import Dashboard from './pages/Dashboard.tsx';
 import { AuthProvider } from './context/auth/AuthProvider.tsx';
+import SignUp from './pages/SignUp.tsx';
 
 const App = () => {
   return (
@@ -10,6 +11,7 @@ const App = () => {
       <ThemeProvider>
         <Routes>
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
           <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </ThemeProvider>
