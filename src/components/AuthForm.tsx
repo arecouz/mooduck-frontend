@@ -1,7 +1,6 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
 import { supabase } from '../utils/supabaseClient';
 import { DarkModeToggle } from './DarkModeToggle';
-import { SocialIcon } from 'react-social-icons'
 
 type AuthFormProps = {
   mode: 'login' | 'signup'
