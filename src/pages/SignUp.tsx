@@ -3,6 +3,7 @@ import AuthForm from "../components/AuthForm";
 import { useAuth } from "../context/auth/useAuth";
 import { useState } from "react";
 
+
 const SignUp = () => {
     const { user } = useAuth(); // Get user from AuthProvider
     const [firstHabitCreated, setFirstHabitCreated] = useState(false);
