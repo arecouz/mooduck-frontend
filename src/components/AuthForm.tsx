@@ -99,7 +99,7 @@ const AuthForm = ({ mode }: AuthFormProps) => {
             <img
               src="/social_icons/001-github.png"
               alt="GitHub"
-              className="h-8 w-8"
+              className="h-8 w-8 dark:invert"
             />
           </button>
 

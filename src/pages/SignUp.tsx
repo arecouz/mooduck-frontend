@@ -1,7 +1,9 @@
 import Cell from "../components/habit/Cell";
 import AuthForm from "../components/AuthForm";
 
+
 const SignUp = () => {
+    
     return (
         <div className="h-screen w-screen flex flex-col items-center justify-center">
             <div className="flex flex-row space-x-8 mb-8">
