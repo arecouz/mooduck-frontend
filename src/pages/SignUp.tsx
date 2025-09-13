@@ -5,10 +5,10 @@ import { useState } from "react";
 
 
 const SignUp = () => {
-    const { user } = useAuth(); // Get user from AuthProvider
+    const { user } = useAuth(); 
     const [firstHabitCreated, setFirstHabitCreated] = useState(false);
 
-    const userSignedUp = !!user; // derived from session
+    const userSignedUp = !!user; 
 
     return (
         <div className="h-screen w-screen flex flex-col items-center justify-center">
@@ -46,7 +46,7 @@ const SignUp = () => {
                             </label>
                             <textarea
                                 id="habitDescription"
-                                rows={2} // two-line height
+                                rows={2} 
                                 className="w-full border-2 px-3 py-2 rounded resize-none"
                             />
                         </div>
