@@ -4,8 +4,8 @@ import Fireworks from "react-canvas-confetti/dist/presets/fireworks";
 import Cell from "../components/habit/Cell";
 import AuthForm from "../components/AuthForm";
 import { useAuth } from "../context/auth/useAuth";
+import { createHabit } from "../services/habits"; // <--- import the service
 
-// Type for the conductor instance
 type TConductorInstance = {
     shoot: () => void;
     run: (params?: any) => void;
@@ -16,8 +16,9 @@ type TConductorInstance = {
 const SignUp = () => {
     const { user } = useAuth();
     const [firstHabitCreated, setFirstHabitCreated] = useState(false);
-
-    const userSignedUp = !!user;
+    const [loading, setLoading] = useState(false); // optional loading state
+    const [habitName, setHabitName] = useState("");
+    const [habitDescription, setHabitDescription] = useState("");
     const fireworksController = useRef<TConductorInstance | null>(null);
     const navigate = useNavigate();
 
@@ -25,25 +26,36 @@ const SignUp = () => {
         fireworksController.current = instance.conductor ?? instance;
     };
 
-    const createHabit = (name: string, description: string) => {
-        if (!firstHabitCreated) {
+    const handleCreateHabit = async () => {
+        if (!user) return;
+        setLoading(true);
+
+        try {
+            await createHabit(user.id, {
+                title: habitName,
+                description: habitDescription,
+                start_date: new Date().toISOString().split("T")[0],
+                frequency: "daily",
+            });
+
             setFirstHabitCreated(true);
 
             // Fire a single burst
             fireworksController.current?.shoot();
-
-            // Stop animation after 1 second
             setTimeout(() => fireworksController.current?.stop(), 1000);
+        } catch (error) {
+            console.error("Failed to create habit:", error);
+        } finally {
+            setLoading(false);
         }
     };
 
-    const goToDashboard = () => {
-        navigate("/dashboard");
-    };
+    const goToDashboard = () => navigate("/dashboard");
+
+    const userSignedUp = !!user;
 
     return (
         <div className="h-screen w-screen flex flex-col items-center justify-center">
-            {/* Fireworks canvas */}
             <Fireworks onInit={handleFireworksInit} />
 
             <div className="flex flex-row space-x-8 mb-8">
@@ -71,6 +83,8 @@ const SignUp = () => {
                                 type="text"
                                 className="w-full border-2 px-3 py-2 rounded"
                                 required
+                                value={habitName}
+                                onChange={(e) => setHabitName(e.target.value)}
                             />
                         </div>
 
@@ -82,15 +96,18 @@ const SignUp = () => {
                                 id="habitDescription"
                                 rows={2}
                                 className="w-full border-2 px-3 py-2 rounded resize-none"
+                                value={habitDescription}
+                                onChange={(e) => setHabitDescription(e.target.value)}
                             />
                         </div>
 
                         <button
                             type="button"
-                            onClick={() => createHabit("Sample Habit", "Sample Description")}
+                            onClick={handleCreateHabit}
+                            disabled={loading || !habitName}
                             className="mt-2 px-4 py-2 bg-yellow-300 rounded hover:bg-yellow-200 dark:bg-gray-800 dark:hover:bg-gray-700 transition-colors"
                         >
-                            Submit Habit
+                            {loading ? "Creating..." : "Submit Habit"}
                         </button>
                     </div>
                 ) : (
