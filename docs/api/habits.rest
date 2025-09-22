@@ -1,0 +1,59 @@
+#########################################################
+# HABIT TRACKER API EXAMPLES (Supabase)
+# ⚠️ This file contains your Supabase anon key. Keep it private!
+#########################################################
+
+# -----------------------------
+# Setup variables
+# -----------------------------
+@supabase_url = https://cecsfkjhegdygynrpmih.supabase.co
+
+@supabse_key = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNlY3Nma2poZWdkeWd5bnJwbWloIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcyNDQ2MDksImV4cCI6MjA2MjgyMDYwOX0.y0cnfmtNTrROpTKrmyngrS4MhFzjvawvnQXGS-f_gB8
+
+
+###
+
+# Get all habits
+GET {{supabase_url}}/rest/v1/habits?select=*
+apikey: {{supabse_key}}
+Authorization: Bearer {{supabse_key}}
+
+###
+
+# Create a new habit
+POST {{supabase_url}}/rest/v1/habits
+Content-Type: application/json
+apikey: {{supabse_key}}
+Authorization: Bearer {{supabse_key}}
+
+{
+  "user_id": "001",
+  "title": "Morning Run",
+  "description": "Run 3km every morning",
+  "frequency": "daily",
+  "custom_days": null,
+  "goal": "3km",
+  "tags": ["fitness", "health"],
+  "start_date": "2025-09-22"
+}
+
+###
+
+# Add a habit log
+POST {{supabase_url}}/rest/v1/habit_logs
+Content-Type: application/json
+apikey: {{supabse_key}}
+Authorization: Bearer {{supabse_key}}
+
+{
+  "habit_id": "your-habit-id",
+  "log_date": "2025-09-22",
+  "completed": true
+}
+
+###
+
+# Get logs for a habit
+GET {{supabase_url}}/rest/v1/habit_logs?habit_id=eq.your-habit-id&order=log_date.desc
+apikey: {{supabse_key}}
+Authorization: Bearer {{supabse_key}}
