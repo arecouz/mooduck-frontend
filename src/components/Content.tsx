@@ -30,6 +30,7 @@ const Content = () => {
   if (loading || loadingHabits) return <p>Loading...</p>;
   if (!user) return <p>Not authorized. Please log in.</p>;
 
+<<<<<<< HEAD
   return (
     <main className="flex flex-col items-center justify-start flex-1 w-full p-4">
       <div className="flex flex-wrap justify-center gap-4 w-full max-w-6xl">
@@ -45,6 +46,25 @@ const Content = () => {
         ))}
 
         <button className="flex items-center justify-center h-40 w-80 border-2 border-dashed border-gray-400 rounded-xl text-gray-400 hover:bg-gray-100 transition">
+=======
+  const habits = ['Habit One', 'Habit Two', 'Habit Three']; // Example habits
+
+  return (
+    <main className="flex flex-col items-center justify-start flex-1 w-full p-4">
+      <div className="flex flex-wrap justify-center gap-4 w-full max-w-6xl">
+        {habits.map((habit, index) => (
+          <div
+            key={index}
+            className="flex flex-col items-center justify-center bg-gray-200 rounded-xl h-40 w-40 text-center shadow"
+          >
+            {habit}
+            <p>Settings</p>
+          </div>
+        ))}
+
+        {/* Dashed "Create New" card */}
+        <button className="flex items-center justify-center h-40 w-40 border-2 border-dashed border-gray-400 rounded-xl text-gray-400 hover:bg-gray-100 transition">
+>>>>>>> c2286142c722fa692d5156d7772a589922b0eecd
           + Create New
         </button>
       </div>

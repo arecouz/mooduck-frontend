@@ -4,7 +4,11 @@ import Fireworks from "react-canvas-confetti/dist/presets/fireworks";
 import Cell from "../components/habit/Cell";
 import AuthForm from "../components/AuthForm";
 import { useAuth } from "../context/auth/useAuth";
+<<<<<<< HEAD
 import { createHabit } from "../services/habits";
+=======
+import { createHabit } from "../services/habits"; // <--- import the service
+>>>>>>> c2286142c722fa692d5156d7772a589922b0eecd
 
 type TConductorInstance = {
     shoot: () => void;
