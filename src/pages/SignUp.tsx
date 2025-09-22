@@ -4,7 +4,7 @@ import Fireworks from "react-canvas-confetti/dist/presets/fireworks";
 import Cell from "../components/habit/Cell";
 import AuthForm from "../components/AuthForm";
 import { useAuth } from "../context/auth/useAuth";
-import { createHabit } from "../services/habits"; // <--- import the service
+import { createHabit } from "../services/habits";
 
 type TConductorInstance = {
     shoot: () => void;
@@ -31,11 +31,15 @@ const SignUp = () => {
         setLoading(true);
 
         try {
-            await createHabit(user.id, {
+            await createHabit({
                 title: habitName,
                 description: habitDescription,
-                start_date: new Date().toISOString().split("T")[0],
-                frequency: "daily",
+                frequency: "daily", // or "weekly"
+                start_date: new Date().toISOString().split("T")[0], // YYYY-MM-DD
+                user_id: user.id,
+                tags: ["test"], // optional
+                goal: null, // optional
+                custom_days: null, // optional
             });
 
             setFirstHabitCreated(true);
