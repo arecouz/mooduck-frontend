@@ -4,7 +4,7 @@ interface CellProps {
     toggled?: boolean;
     onToggle?: (state: boolean) => void;
     autoToggle?: boolean;
-    clickable?: boolean; 
+    clickable?: boolean;
 }
 
 const Cell = ({ toggled: controlledToggled, onToggle, autoToggle, clickable = false }: CellProps) => {
