@@ -1,17 +1,10 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import Fireworks from "react-canvas-confetti/dist/presets/fireworks";
 import Cell from "../components/habit/Cell";
 import AuthForm from "../components/AuthForm";
 import { useAuth } from "../context/auth/useAuth";
 import { createHabit } from "../services/habits";
-
-type TConductorInstance = {
-    shoot: () => void;
-    run: (params?: any) => void;
-    pause: () => void;
-    stop: () => void;
-};
+import { shootFireworks } from "../utils/fireworks";
 
 const SignUp = () => {
     const { user } = useAuth();
@@ -20,12 +13,7 @@ const SignUp = () => {
     const [habitName, setHabitName] = useState("");
     const [habitDescription, setHabitDescription] = useState("");
     const [selectedDays, setSelectedDays] = useState<string[]>([]);
-    const fireworksController = useRef<TConductorInstance | null>(null);
     const navigate = useNavigate();
-
-    const handleFireworksInit = (instance: any) => {
-        fireworksController.current = instance.conductor ?? instance;
-    };
 
     const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
     const dayMap: Record<string, string> = {
@@ -106,8 +94,7 @@ const SignUp = () => {
             });
 
             setFirstHabitCreated(true);
-            fireworksController.current?.shoot();
-            setTimeout(() => fireworksController.current?.stop(), 1000);
+            shootFireworks()
         } catch (error) {
             console.error("Failed to create habit:", error);
         } finally {
@@ -120,8 +107,6 @@ const SignUp = () => {
 
     return (
         <div className="h-screen w-screen flex flex-col items-center justify-center">
-            <Fireworks onInit={handleFireworksInit} />
-
             <div className="flex flex-row space-x-8 mb-8">
                 <div className="flex flex-col items-center">
                     <p className="text-lg font-semibold">1. Sign Up</p>
