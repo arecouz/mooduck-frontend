@@ -34,7 +34,7 @@ export const logHabit = async (habitId: string): Promise<HabitLog> => {
         .from('habit_logs')
         .upsert(
             [{ habit_id: habitId, log_date: today, completed: true }],
-            { onConflict: 'habit_id,log_date' } // composite key
+            { onConflict: 'habit_id,log_date' } 
         )
         .select()
         .single();
