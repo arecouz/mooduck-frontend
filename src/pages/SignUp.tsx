@@ -10,71 +10,10 @@ const SignUp = () => {
     const { user } = useAuth();
     const [firstHabitCreated, setFirstHabitCreated] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [loading, setLoading] = useState(false);
     const [habitName, setHabitName] = useState("");
     const [habitDescription, setHabitDescription] = useState("");
     const [selectedDays, setSelectedDays] = useState<string[]>([]);
     const navigate = useNavigate();
-
-    const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-    const dayMap: Record<string, string> = {
-        Mon: "Monday",
-        Tue: "Tuesday",
-        Wed: "Wednesday",
-        Thu: "Thursday",
-        Fri: "Friday",
-        Sat: "Saturday",
-        Sun: "Sunday",
-    };
-
-    const formatFrequency = (days: string[]): string => {
-        const weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri"];
-        const weekend = ["Sat", "Sun"];
-        const allDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-
-        // Sort input for consistent output
-        const sortedDays = days.filter(d => allDays.includes(d));
-
-        if (sortedDays.length === 7) return "every day!";
-        if (sortedDays.length === 5 && weekdays.every(d => sortedDays.includes(d))) return "on weekdays.";
-        if (sortedDays.length === 2 && weekend.every(d => sortedDays.includes(d))) return "on the weekend.";
-
-        // Map abbreviations to full names
-        const fullNames = sortedDays.map(d => dayMap[d]);
-
-        if (fullNames.length === 1) return `on ${fullNames[0]}`;
-        if (fullNames.length === 2) return `on ${fullNames[0]} and ${fullNames[1]}`;
-
-        // For 3+ days, join with commas and 'and'
-        const lastDay = fullNames[fullNames.length - 1];
-        const otherDays = fullNames.slice(0, -1);
-        return `on ${otherDays.join(", ")} and ${lastDay}`;
-    };
-
-    const cleanHabitName = (title: string): string => {
-        let cleaned = title.trim();
-        cleaned = cleaned.replace(/\.$/, "");
-        cleaned = cleaned.toLocaleLowerCase()
-        return cleaned;
-    };
-
-
-
-    const handleToggleDay = (day: string) => {
-        setSelectedDays((prev) =>
-            prev.includes(day)
-                ? prev.filter((d) => d !== day)
-                : [...prev, day]
-        );
-    };
-
-    const handleToggleAll = () => {
-        if (selectedDays.length === daysOfWeek.length) {
-            setSelectedDays([]);
-        } else {
-            setSelectedDays([...daysOfWeek]);
-        }
-    };
 
     const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
     const dayMap: Record<string, string> = {
@@ -155,10 +94,9 @@ const SignUp = () => {
             });
 
             setFirstHabitCreated(true);
-
+            shootFireworks()
             // Fire a single burst
-            fireworksController.current?.shoot();
-            setTimeout(() => fireworksController.current?.stop(), 1000);
+
         } catch (error) {
             console.error("Failed to create habit:", error);
         } finally {
