@@ -7,14 +7,21 @@ type TConductorInstance = {
 };
 
 let fireworksController: TConductorInstance | null = null;
+let activeFireworks = 0;
 
 /**
  * Shoot fireworks globally
  * @param duration duration in ms before stopping
  */
-export const shootFireworks = (duration = 1000) => {
+export const shootFireworks = (duration = 2000) => {
     fireworksController?.shoot();
-    setTimeout(() => fireworksController?.stop(), duration);
+    activeFireworks++;
+    setTimeout(() => {
+        activeFireworks--;
+        if (activeFireworks === 0) {
+            fireworksController?.stop();
+        }
+    }, duration);
 };
 
 /**

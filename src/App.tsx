@@ -6,6 +6,7 @@ import { Routes, Route } from "react-router-dom";
 import Login from './pages/Login.tsx';
 import SignUp from './pages/SignUp.tsx';
 import Dashboard from './pages/Dashboard.tsx';
+import Sandbox from './pages/Sandbox.tsx';
 
 const App = () => (
   <AuthProvider>
@@ -15,6 +16,7 @@ const App = () => (
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/sandbox" element={<Sandbox />} />
       </Routes>
     </ThemeProvider>
   </AuthProvider>
