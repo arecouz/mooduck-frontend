@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-import { useAuth } from "../context/auth/useAuth";
-import Cell from "./habit/Cell";
-import { fetchHabits } from "../services/habits";
-import { Tables } from "../types/supabase";
-import { shootFireworks } from "../utils/fireworks";
+import { useEffect, useState } from 'react';
+import { useAuth } from '../context/auth/useAuth';
+import Cell from './habit/Cell';
+import { fetchHabits, removeHabit } from '../services/habits';
+import { Tables } from '../types/supabase';
+import { shootFireworks } from '../utils/fireworks';
 
-type Habit = Tables<"habits">;
+type Habit = Tables<'habits'>;
 
 const Content = () => {
   const { user, loading } = useAuth();
@@ -19,7 +19,7 @@ const Content = () => {
         const data = await fetchHabits();
         setHabits(data);
       } catch (err) {
-        console.error("Error fetching habits:", err);
+        console.error('Error fetching habits:', err);
       } finally {
         setLoadingHabits(false);
       }
@@ -30,9 +30,8 @@ const Content = () => {
 
   const handleCheck = (habit: Habit, state: boolean) => {
     console.log(`Toggled habit: ${habit.title} (ID: ${habit.id}) -> ${state}`);
-    shootFireworks()
+    shootFireworks();
   };
-
 
   if (loading || loadingHabits) return <p>Loading...</p>;
   if (!user) return <p>Not authorized. Please log in.</p>;
@@ -44,19 +43,22 @@ const Content = () => {
         <p></p>
       </div>
       <div className="flex flex-wrap justify-center gap-4 w-full max-w-6xl">
-        {habits.map((habit) => (
+        {habits.map(habit => (
           <div
             key={habit.id}
             className="flex flex-col items-center border-1 justify-center rounded-xl h-40 w-80 text-center shadow"
           >
-            {habit.title} Steak:
-            <Cell
-              clickable={true}
-              onToggle={(state) => handleCheck(habit, state)}
-            />
+            {habit.title}
+            <button
+              onClick={() => {
+                removeHabit(habit.id);
+              }}
+            >
+              delete
+            </button>
+            <Cell clickable={true} onToggle={state => handleCheck(habit, state)} />
           </div>
         ))}
-
       </div>
     </main>
   );
