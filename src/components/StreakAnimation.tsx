@@ -31,6 +31,14 @@ const StreakAnimation = (
     [streak, baseStreak],
   );
 
+  const startCollapse = () => {
+    setIsCollapsing(true);
+    shootFireworks();
+    playLevelUp();
+    shootFireworks();
+    shootFireworks();
+  };
+
   useEffect(() => {
     if (!isPlaying) return;
 
@@ -108,14 +116,6 @@ const StreakAnimation = (
       animateTick();
     };
 
-    const startCollapse = () => {
-      setIsCollapsing(true);
-      shootFireworks();
-      playLevelUp();
-      shootFireworks();
-      shootFireworks();
-    };
-
     tick();
   }, [isPlaying, streak, baseStreak]);
 
@@ -136,9 +136,13 @@ const StreakAnimation = (
 
   return (
     <div className="flex flex-wrap gap-2 mt-6">
-      {cells.map((value, i) => (
-        <Cell key={i} toggled={true} clickable={false} autoToggle={true} value={value} />
-      ))}
+      {!isPlaying && cells.length === 0 ? (
+        <Cell toggled={true} clickable={false} value={streak} />
+      ) : (
+        cells.map((value, i) => (
+          <Cell key={i} toggled={true} clickable={false} autoToggle={true} value={value} />
+        ))
+      )}
     </div>
   );
 };

@@ -54,7 +54,9 @@ export type Database = {
           frequency: string
           goal: string | null
           id: string
+          last_completed_date: string | null
           start_date: string
+          streak: number
           tags: string[] | null
           title: string
           updated_at: string | null
@@ -67,7 +69,9 @@ export type Database = {
           frequency?: string
           goal?: string | null
           id?: string
+          last_completed_date?: string | null
           start_date: string
+          streak?: number
           tags?: string[] | null
           title: string
           updated_at?: string | null
@@ -80,7 +84,9 @@ export type Database = {
           frequency?: string
           goal?: string | null
           id?: string
+          last_completed_date?: string | null
           start_date?: string
+          streak?: number
           tags?: string[] | null
           title?: string
           updated_at?: string | null
