@@ -1,5 +1,6 @@
 export type StreakAnimationProps = {
   streak: number;
+  baseStreak?: number;
   onComplete?: () => void;
   className?: string;
 };

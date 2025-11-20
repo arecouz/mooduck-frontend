@@ -8,7 +8,7 @@ import { CellValue } from '../types/cell';
 const MILESTONE = 10;
 
 const StreakAnimation = (
-  { streak, onComplete }: StreakAnimationProps,
+  { streak, baseStreak, onComplete }: StreakAnimationProps,
   ref: Ref<StreakAnimationHandle>,
 ) => {
   const [cells, setCells] = useState<CellValue[]>([]);
@@ -22,23 +22,32 @@ const StreakAnimation = (
       play: () => {
         if (hasPlayedRef.current !== streak) {
           hasPlayedRef.current = streak;
-          setCells([]);
+          setCells(baseStreak && baseStreak > 0 ? [baseStreak] : []);
           setIsPlaying(true);
           setIsCollapsing(false);
         }
       },
     }),
-    [streak],
+    [streak, baseStreak],
   );
 
   useEffect(() => {
     if (!isPlaying) return;
 
-    const isDivisibleBy10 = streak % MILESTONE === 0;
-    const completeGroups = Math.floor(streak / MILESTONE);
-    const remainder = streak % MILESTONE;
-    const numCompleteGroupsToAdd = isDivisibleBy10 ? completeGroups - 1 : completeGroups;
-    const lastGroupAnimates = isDivisibleBy10;
+    const streakToAdd = streak - (baseStreak || 0);
+    if (streakToAdd <= 0) {
+      startCollapse();
+      return;
+    }
+
+    const isDivisibleBy10 = streakToAdd % MILESTONE === 0;
+    const completeGroups = Math.floor(streakToAdd / MILESTONE);
+    const remainder = streakToAdd % MILESTONE;
+    const numCompleteGroupsToAdd = Math.max(
+      0,
+      isDivisibleBy10 ? completeGroups - 1 : completeGroups,
+    );
+    const lastGroupAnimates = isDivisibleBy10 && streakToAdd > 0;
 
     const cellsToAdd: number[] = [
       ...Array(numCompleteGroupsToAdd).fill(MILESTONE),
@@ -108,7 +117,7 @@ const StreakAnimation = (
     };
 
     tick();
-  }, [isPlaying, streak]);
+  }, [isPlaying, streak, baseStreak]);
 
   useEffect(() => {
     if (!isCollapsing) return;
