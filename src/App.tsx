@@ -1,5 +1,5 @@
 // App.tsx
-import { FireworksWrapper } from './utils/fireworks.tsx';
+import { FireworksWrapper } from './utils/FireworksWrapper';
 import { ThemeProvider } from './context/theme/ThemeProvider.tsx';
 import { AuthProvider } from './context/auth/AuthProvider.tsx';
 import { Routes, Route } from "react-router-dom";

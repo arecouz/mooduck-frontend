@@ -1,5 +1,3 @@
-import Fireworks from "react-canvas-confetti/dist/presets/fireworks";
-
 type TConductorInstance = {
     shoot: () => void;
     pause: () => void;
@@ -8,6 +6,10 @@ type TConductorInstance = {
 
 let fireworksController: TConductorInstance | null = null;
 let activeFireworks = 0;
+
+export const setFireworksController = (instance: TConductorInstance | null) => {
+    fireworksController = instance;
+};
 
 /**
  * Shoot fireworks globally
@@ -23,15 +25,3 @@ export const shootFireworks = (duration = 2000) => {
         }
     }, duration);
 };
-
-/**
- * Fireworks wrapper component to put somewhere at the root of your app
- * Only needs to be rendered once
- */
-export const FireworksWrapper = () => (
-    <Fireworks
-        onInit={(instance) => {
-            fireworksController = instance.conductor ?? instance;
-        }}
-    />
-);
