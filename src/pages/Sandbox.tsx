@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Cell from '../components/habit/Cell';
 import { playNintendo, playChime, playLevelUp } from '../utils/sound';
 import { shootFireworks } from '../utils/fireworks'; // import your fireworks function
+import StreakAnimation from '../components/StreakAnimation';
 
 const milestone = 10;
 
@@ -13,6 +14,7 @@ const Sandbox = () => {
   const [streakLength, setStreakLength] = useState(25);
   const [cells, setCells] = useState<CellState[]>([]);
   const [isPlaying, setIsPlaying] = useState(false);
+  const streakRef = useRef(null);
 
   const handleStart = () => {
     setCells([]);
@@ -132,6 +134,13 @@ const Sandbox = () => {
         {cells.map((cell, i) => (
           <Cell key={i} toggled={true} clickable={false} autoToggle={true} value={cell.value} />
         ))}
+      </div>
+
+      <div className="border">
+        <div className="p-5">
+          streak 33: <StreakAnimation streak={33} ref={streakRef} />
+          <button onClick={() => streakRef.current?.play()}>completed</button>
+        </div>
       </div>
     </div>
   );

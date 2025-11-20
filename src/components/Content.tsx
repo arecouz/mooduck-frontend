@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../context/auth/useAuth';
 import Cell from './habit/Cell';
 import { fetchHabits, removeHabit } from '../services/habits';
 import { Tables } from '../types/supabase';
 import { shootFireworks } from '../utils/fireworks';
+import StreakAnimation from './StreakAnimation';
 
 type Habit = Tables<'habits'>;
 
@@ -11,6 +12,7 @@ const Content = () => {
   const { user, loading } = useAuth();
   const [habits, setHabits] = useState<Habit[]>([]);
   const [loadingHabits, setLoadingHabits] = useState(true);
+  const streakRef = useRef(null);
 
   useEffect(() => {
     const loadHabits = async () => {
@@ -56,7 +58,9 @@ const Content = () => {
             >
               delete
             </button>
+            <button onClick={() => streakRef.current?.play()}>completed</button>
             <Cell clickable={true} onToggle={state => handleCheck(habit, state)} />
+            <StreakAnimation streak={9} ref={streakRef} />
           </div>
         ))}
       </div>
