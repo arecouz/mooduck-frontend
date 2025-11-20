@@ -1,18 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../context/auth/useAuth';
 import Cell from './habit/Cell';
-import { fetchHabits, removeHabit } from '../services/habits';
-import { Tables } from '../types/supabase';
+import { fetchHabits, Habit, removeHabit } from '../services/habits';
 import { shootFireworks } from '../utils/fireworks';
 import StreakAnimation from './StreakAnimation';
-
-type Habit = Tables<'habits'>;
+import { StreakAnimationHandle } from '../types/streak';
 
 const Content = () => {
   const { user, loading } = useAuth();
   const [habits, setHabits] = useState<Habit[]>([]);
   const [loadingHabits, setLoadingHabits] = useState(true);
-  const streakRef = useRef(null);
+  const streakRef = useRef<StreakAnimationHandle | null>(null);
 
   useEffect(() => {
     const loadHabits = async () => {

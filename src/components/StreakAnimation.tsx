@@ -2,28 +2,16 @@ import { useState, useEffect, forwardRef, useImperativeHandle, Ref, useRef } fro
 import { shootFireworks } from '../utils/fireworks';
 import { playChime, playNintendo, playLevelUp } from '../utils/sound';
 import Cell from './habit/Cell';
-
-type __StreakAnimationProps__ = {
-  streak: number;
-  onComplete?: () => void;
-  className?: string;
-};
-
-export type __StreakAnimationHandle__ = {
-  play: () => void;
-};
+import { StreakAnimationHandle, StreakAnimationProps } from '../types/streak';
+import { CellValue } from '../types/cell';
 
 const MILESTONE = 10;
 
-type __CellState__ = {
-  value: number;
-};
-
 const StreakAnimation = (
-  { streak, onComplete }: __StreakAnimationProps__,
-  ref: Ref<__StreakAnimationHandle__>,
+  { streak, onComplete }: StreakAnimationProps,
+  ref: Ref<StreakAnimationHandle>,
 ) => {
-  const [cells, setCells] = useState<__CellState__[]>([]);
+  const [cells, setCells] = useState<CellValue[]>([]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isCollapsing, setIsCollapsing] = useState(false);
   const hasPlayedRef = useRef<number | null>(null);
@@ -70,7 +58,7 @@ const StreakAnimation = (
       }
 
       const value = cellsToAdd[currentIndex];
-      setCells(prev => [...prev, { value }]);
+      setCells(prev => [...prev, value]);
 
       if (value === MILESTONE) {
         playChime(440 + currentIndex * 20);
@@ -95,14 +83,14 @@ const StreakAnimation = (
             playChime(440 + completeGroups * 20);
             setCells(prev => {
               const withoutLast10 = prev.slice(0, -MILESTONE);
-              return [...withoutLast10, { value: MILESTONE }];
+              return [...withoutLast10, MILESTONE];
             });
             setTimeout(() => startCollapse(), 300);
           }, 100);
           return;
         }
 
-        setCells(prev => [...prev, { value: 1 }]);
+        setCells(prev => [...prev, 1]);
         playNintendo(400 + lastGroupIndex * 30, lastGroupIndex);
         lastGroupIndex++;
         setTimeout(animateTick, 100);
@@ -112,10 +100,10 @@ const StreakAnimation = (
     };
 
     const startCollapse = () => {
+      setIsCollapsing(true);
       shootFireworks();
       playLevelUp();
       shootFireworks();
-      setIsCollapsing(true);
       shootFireworks();
     };
 
@@ -125,10 +113,10 @@ const StreakAnimation = (
   useEffect(() => {
     if (!isCollapsing) return;
 
-    const collapseDelay = 500;
+    const collapseDelay = 50;
 
     const timer = setTimeout(() => {
-      setCells([{ value: streak }]);
+      setCells([streak]);
       setIsPlaying(false);
       setIsCollapsing(false);
       onComplete?.();
@@ -139,8 +127,8 @@ const StreakAnimation = (
 
   return (
     <div className="flex flex-wrap gap-2 mt-6">
-      {cells.map((cell, i) => (
-        <Cell key={i} toggled={true} clickable={false} autoToggle={true} value={cell.value} />
+      {cells.map((value, i) => (
+        <Cell key={i} toggled={true} clickable={false} autoToggle={true} value={value} />
       ))}
     </div>
   );

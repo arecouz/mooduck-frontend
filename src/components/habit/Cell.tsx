@@ -20,7 +20,7 @@ const Cell = ({
       beep.play();
       onToggle?.(true);
     }
-  }, [autoToggle]);
+  }, [autoToggle, beep, onToggle]);
 
   // Sync with parent
   useEffect(() => {

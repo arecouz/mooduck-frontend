@@ -1,10 +1,10 @@
-// utils/sound.ts
+
 // ---------------------------------------------------------------------
 // Audio context
 // ---------------------------------------------------------------------
 const ctx =
   typeof window !== 'undefined'
-    ? new (window.AudioContext || (window as any).webkitAudioContext)()
+    ? new (window.AudioContext || (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext)()
     : null;
 
 // ---------------------------------------------------------------------

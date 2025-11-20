@@ -1,5 +1,4 @@
-export type CellValue = 5 | 10 | 50 | 100;
-
+export type CellValue = number;
 export interface CellProps {
   value?: CellValue;
   toggled?: boolean;
