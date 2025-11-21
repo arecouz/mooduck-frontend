@@ -1,16 +1,6 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- 🔥 Clean Supabase OAuth hash BEFORE React loads -->
-    <script>
-      (function () {
-        if (window.location.hash.startsWith("#access_token")) {
-          window.history.replaceState({}, "", "/");
-        }
-      })();
-    </script>
-
-    <!-- existing theme script -->
     <script>
       (function () {
         const theme = localStorage.getItem('theme');
@@ -22,7 +12,6 @@
         }
       })();
     </script>
-
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/duck.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
