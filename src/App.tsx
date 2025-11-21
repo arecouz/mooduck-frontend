@@ -19,7 +19,16 @@ const App = () => (
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
         <Route path="/sandbox" element={<Sandbox />} />
-        <Route path="*" element={<PageNotFound />} />
+        <Route
+          path="*"
+          element={
+            window.location.hash.startsWith('#access_token') ? (
+              <Navigate to="/dashboard" replace />
+            ) : (
+              <PageNotFound />
+            )
+          }
+        />
       </Routes>
     </ThemeProvider>
   </AuthProvider>
