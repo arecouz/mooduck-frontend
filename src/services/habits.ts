@@ -44,7 +44,7 @@ export const getStreak = async (habitId: string): Promise<number> => {
     .from('habits')
     .select('id, title, streak, user_id')
     .eq('id', habitId)
-    .maybeSingle(); // does NOT throw on 0 rows
+    .maybeSingle();
 
   if (error) {
     console.error('getStreak error:', error);
@@ -70,12 +70,12 @@ export const fetchHabitLogs = async (habitId: string): Promise<HabitLog[]> => {
   return data ?? [];
 };
 
-export const logHabit = async (habit: Habit): Promise<Habit> => {
+export const logHabit = async (habit: Habit, logDate?: string): Promise<Habit> => {
   try {
     console.log('--- logHabit START ---');
     console.log('Habit input:', habit);
 
-    const today = new Date().toISOString().split('T')[0];
+    const today = logDate ?? new Date().toISOString().split('T')[0];
     const todayDate = new Date(today);
     console.log('Today:', today);
 
@@ -94,21 +94,21 @@ export const logHabit = async (habit: Habit): Promise<Habit> => {
     }
     console.log('Calculated new streak:', newStreak);
 
-    // 2. Insert/Upsert log
+    // 2. Insert log (no onConflict)
     const { data: logData, error: logError } = await supabase
       .from('habit_logs')
-      .upsert([{ habit_id: habit.id, log_date: today, completed: true }], {
-        onConflict: 'habit_id,log_date',
-        returning: 'representation', // log the result too
-      });
-    console.log('Habit log upsert result:', logData, 'Error:', logError);
+      .insert([{ habit_id: habit.id, log_date: today, completed: true }])
+      .select();
+
+    console.log('Habit log insert result:', logData, 'Error:', logError);
     if (logError) throw logError;
 
     // 3. Update habit streak + last_completed_date
     const { data, error: habitError } = await supabase
       .from('habits')
-      .update({ streak: newStreak, last_completed_date: today }, { returning: 'representation' })
+      .update({ streak: newStreak, last_completed_date: today })
       .eq('id', habit.id)
+      .select()
       .maybeSingle();
 
     console.log('Habit update result:', data, 'Error:', habitError);
@@ -116,7 +116,7 @@ export const logHabit = async (habit: Habit): Promise<Habit> => {
 
     if (!data) {
       console.warn('Habit updated but no data returned. Likely RLS is blocking the SELECT.');
-      return habit; // return original habit as fallback
+      return habit;
     }
 
     console.log('--- logHabit END ---');
@@ -135,7 +135,7 @@ export const isHabitDoneToday = async (habitId: string): Promise<boolean> => {
     .select('id')
     .eq('habit_id', habitId)
     .eq('log_date', today)
-    .maybeSingle(); // only check if exists
+    .maybeSingle();
 
   if (error) throw error;
 

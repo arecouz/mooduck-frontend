@@ -81,7 +81,6 @@ const SignUp = () => {
       await createHabit({
         title: name,
         description: habitDescription || null,
-        frequency: selectedDays.length > 0 ? selectedDays : [...daysOfWeek], // default to all if none selected
         start_date: new Date().toISOString().split('T')[0],
         user_id: user.id,
         tags: ['test'],
