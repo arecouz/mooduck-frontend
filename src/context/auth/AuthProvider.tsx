@@ -31,7 +31,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       if (event === 'SIGNED_IN') {
         window.history.replaceState({}, '', '/dashboard');
-
         navigate('/dashboard');
       }
 
@@ -44,6 +43,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       data.subscription.unsubscribe();
     };
   }, [navigate]);
+
+  if (loading) {
+    return (
+      <div className="w-screen h-screen flex items-center justify-center">
+        <h1>Loading…</h1>
+      </div>
+    );
+  }
 
   return <AuthContext.Provider value={{ user, session, loading }}>{children}</AuthContext.Provider>;
 };
