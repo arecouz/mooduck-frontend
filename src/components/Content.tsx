@@ -1,16 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../context/auth/useAuth';
 import Cell from './habit/Cell';
-import {
-  fetchHabits,
-  getHabitsDoneToday,
-  Habit,
-  logHabit,
-  removeHabit,
-} from '../services/habits';
+import { fetchHabits, getHabitsDoneToday, Habit, logHabit, removeHabit } from '../services/habits';
 import { shootFireworks } from '../utils/fireworks';
 import StreakAnimation from './StreakAnimation';
 import { StreakAnimationHandle } from '../types/streak';
+import { useNavigate } from 'react-router-dom';
 
 const Content = () => {
   const { user, loading } = useAuth();
@@ -21,6 +16,8 @@ const Content = () => {
   const [checkedHabits, setCheckedHabits] = useState(new Set<string>());
   const streakRef = useRef<StreakAnimationHandle | null>(null);
   const [timeTillMidnight, setTimeTillMidnight] = useState('');
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadHabits = async () => {
@@ -35,10 +32,7 @@ const Content = () => {
         setCheckedHabits(doneTodaySet);
 
         // calculate the total score for habits
-        const sumOfStreaks = habitsData.reduce(
-          (sum, habit) => sum + habit.streak,
-          0,
-        );
+        const sumOfStreaks = habitsData.reduce((sum, habit) => sum + habit.streak, 0);
         const initialTotal = sumOfStreaks + doneTodaySet.size;
 
         console.log(doneTodaySet);
@@ -73,9 +67,9 @@ const Content = () => {
       const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-      return `${hours.toString().padStart(2, '0')}:${minutes
+      return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds
         .toString()
-        .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        .padStart(2, '0')}`;
     };
 
     const timerId = setInterval(() => {
@@ -130,8 +124,9 @@ const Content = () => {
   };
 
   if (loading || loadingHabits) return <p>Loading...</p>;
-  if (!user) return <p>Not authorized. Please log in.</p>;
-
+  if (!user) {
+    navigate('/login');
+  }
   const allHabitsDone = habits.length > 0 && checkedHabits.size === habits.length;
 
   return (
@@ -161,9 +156,7 @@ const Content = () => {
 
       <div className="w-full max-w-2xl my-8 text-center">
         {allHabitsDone ? (
-          <p className="text-2xl font-bold text-green-500">
-            You completed everything for today!
-          </p>
+          <p className="text-2xl font-bold text-green-500">You completed everything for today!</p>
         ) : (
           <div>
             <h2 className="text-xl font-bold">Time until day ends:</h2>

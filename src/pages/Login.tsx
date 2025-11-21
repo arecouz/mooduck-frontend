@@ -6,25 +6,23 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleSignupRedirect = () => {
-    navigate('/signup'); 
+    navigate('/signup');
   };
 
   return (
-    <div className="h-screen w-screen flex flex-col items-center justify-center">
+    <div className="min-h-screen w-screen flex flex-col items-center justify-center pt-8">
       <div className="flex flex-col w-full max-w-md px-4">
         <div className="flex flex-row justify-between items-end w-full">
           <Brand />
-          <button
-            onClick={handleSignupRedirect}
-            className="text-blue-500 hover:underline"
-          >
+          <button onClick={handleSignupRedirect} className="text-blue-500 hover:underline">
             Sign Up?
           </button>
         </div>
-        <AuthForm mode='login'/>
+        <AuthForm mode="login" />
       </div>
     </div>
   );
 };
 
 export default Login;
+3;
